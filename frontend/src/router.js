@@ -12,6 +12,11 @@ export default new Router({
       path: "/",
       name: "home",
       component: Home
+    },
+    {
+      path: "*",
+      name: "404 error",
+      component: () => import('./views/404NotFound')
     }
   ]
 });

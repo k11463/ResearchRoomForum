@@ -1,18 +1,19 @@
 <template>
     <div id="bg">
         <transition name="fade">
-            <v-toolbar class="box" v-show="show">
+            <v-toolbar class="box" v-show="CanShow">
                 <div class="left center">
-                    <img src="@/assets/logo.png" alt="">
+                    <img src="@/assets/logo.png" alt="" @click="() => { this.$router.push('/'); }" style="cursor: pointer;">
                 </div>
                 <div class="right">
                     <div class="guides">
 
                     </div>
                     <div class="infos">
-                        <div class="info-single center" v-for="i in info[0][0]" :key="i">
-                            <i class="fas fa-sign-in-alt"></i>
-                            {{ i }}
+                        <div class="info-single center" v-for="(i, id) in info[0][loginStatus]" :key="id">
+                            <i :class="i.icon"></i>
+                            {{ i.text }}
+                            <div class="botLine"></div>
                         </div>
                     </div>
                 </div>
@@ -24,11 +25,17 @@
 <script>
 export default {
     mounted() {
-        var vue = this;
         window.addEventListener('scroll', () => {
             var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
-            if (scrollTop > this.scrollValue) {
-                this.ScrollControl();
+            if (scrollTop == 0) {
+                this.show = true;
+                window.clearTimeout(this.timeout);
+            }
+            else {
+                this.show = false;
+                if (scrollTop < this.scrollValue) {
+                    this.ScrollControl();
+                }
             }
             this.scrollValue = scrollTop;
         })
@@ -41,7 +48,16 @@ export default {
             loginStatus: 0, // 0未登入 1已登入
             info: [
                 [
-                    ["登入", "註冊"]
+                    [
+                        {
+                            text: "註冊",
+                            icon: "fas fa-user-plus"
+                        },
+                        {
+                            text: "登入",
+                            icon: "fas fa-sign-in-alt"
+                        },
+                    ]
                 ],
                 [
                     ["登出"]
@@ -57,12 +73,27 @@ export default {
                 this.show = false;
                 window.clearTimeout(this.timeout);
             }, 2000);
-        }
+        },
     },
+    computed: {
+        CanShow() {
+            if (this.$store.state.pageNotFound) {
+                return false;
+            }
+            else {
+                if (this.show) {
+                    return true;
+                }
+            }
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
+* {
+    user-select: none;
+}
 .fade-enter-active, .fade-leave-active {
     transition: opacity 1s;
 }
@@ -77,6 +108,7 @@ export default {
         height: 100%;
         img {
             width: 40%;
+            margin-right: 8%;
         }
     }
     .right {
@@ -91,7 +123,6 @@ export default {
         .infos {
             width: 30%;
             height: 100%;
-            border: 1px solid #000;
             float: left;
             display: flex;
             align-items: center;
@@ -99,14 +130,30 @@ export default {
             .info-single {
                 width: 16%;
                 height: 56%;
-                border: 1px solid #000;
                 margin-right: 4%;
                 font-weight: bold;
                 color: rgb(139, 80, 2);
                 font-size: 16px;
+                cursor: pointer;
+                position: relative;
                 i {
                     margin-right: 8%;
                 }
+                .botLine {
+                    border: 1px solid rgb(255, 245, 229);
+                    position: absolute;
+                    width: 88%;
+                    top: 120%;
+                    transition: 0.8s;
+                    opacity: 0;
+                }
+            }
+            .info-single:hover {
+                color: rgb(255, 245, 229);
+            }
+            .info-single:hover > .botLine {
+                top: 100%;
+                opacity: 1;
             }
         }
     }
