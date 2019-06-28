@@ -101,7 +101,7 @@ export default {
     opacity: 0;
 }
 .box {
-    background: linear-gradient(rgb(255, 210, 143),rgb(255, 182, 73));
+    background: linear-gradient(rgb(255, 203, 124),rgb(241, 190, 113));
     position: fixed;
     .left {
         width: 15%;
@@ -144,7 +144,7 @@ export default {
                     position: absolute;
                     width: 88%;
                     top: 120%;
-                    transition: 0.8s;
+                    transition: 0.4s;
                     opacity: 0;
                 }
             }
