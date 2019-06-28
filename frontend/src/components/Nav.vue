@@ -144,7 +144,7 @@ export default {
                     position: absolute;
                     width: 88%;
                     top: 120%;
-                    transition: 0.4s;
+                    transition: 0.4 s;
                     opacity: 0;
                 }
             }

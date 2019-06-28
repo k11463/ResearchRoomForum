@@ -20,12 +20,12 @@
                     </button>
                   </div>
                   <div class="search">
-                    <input type="text" size="20" @focus="searchBoxFocus = true" @blur="searchBoxFocus = false">
+                    <input type="text" size="20" @focus="searchBoxFocus = true" @blur="searchBoxFocus = false" v-model="searchText">
                     <div class="placeholder">
                       <div class="phtext" v-if="searchBoxFocus">
                         搜尋中...
                       </div>
-                      <div class="phtext" v-if="!searchBoxFocus">
+                      <div class="phtext" v-if="!searchBoxFocus" v-show="(searchText == '')">
                         搜尋{{ selectValue }}
                       </div>
                     </div>
@@ -91,6 +91,7 @@ export default {
       selectValue: "標題",
       searchBoxFocus: false,
       aritcleBoxHoverId: -1,
+      searchText: "",
     }
   },
   methods: {
@@ -146,7 +147,6 @@ export default {
         height: 100%;
         padding-top: 2%;
         .searchBox {
-          background: linear-gradient(rgb(255, 250, 238), rgb(241, 235, 219));
           height: 6%;
           .searchLayout {
             height: 100%;
@@ -215,7 +215,7 @@ export default {
                 input {
                   width: 100%;
                   height: 100%;
-                  background-color: rgb(255, 232, 189);
+                  background-color: #fff;
                   font-size: 15px;
                   padding-left: 2.8%;
                   font-weight: bold;
@@ -225,7 +225,6 @@ export default {
                 }
                 input:focus {
                   outline: 2px solid rgb(255, 129, 56);
-                  background-color: #fff;
                 }
                 input:focus + .placeholder {
                   transform: translate(-8%, -104%);
@@ -236,9 +235,9 @@ export default {
                   top: 16%;
                   letter-spacing: 2px;
                   padding-left: 2%;
-                  color: rgb(160, 141, 141);
                   font-weight: bold;
                   transition: 0.8s;
+                  color: rgb(146, 131, 111);
                 }
               }
               .send {
@@ -347,11 +346,12 @@ export default {
             .articleArrow {
               width: 8%;
               height: 100%;
-              left: -8.4%;
+              left: -9.2%;
               position: absolute;
               background-image: url('../assets/articleListArrow.gif');
-              background-size: 100%;
-              top: 8%;
+              background-position: 12px 32px;
+              background-size: 40px;
+              transform: rotate(-90deg);
             }
           }
           .articleBox:hover {
